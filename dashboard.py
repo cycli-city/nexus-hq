@@ -1,3 +1,4 @@
+from auth import login_page, logout, get_current_user
 from memory import save_session, build_memory_context, get_all_sessions, get_session_count, delete_all_memory, save_company_fact, get_company_facts
 import streamlit as st
 import os
@@ -16,6 +17,13 @@ from memory import save_session, build_memory_context, get_all_sessions, get_ses
 # PAGE CONFIG
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 st.set_page_config(page_title="Nexus HQ", page_icon="◆", layout="wide", initial_sidebar_state="expanded")
+# ━━━ AUTH CHECK ━━━
+if "user" not in st.session_state:
+    st.session_state.user = None
+
+if not st.session_state.user:
+    login_page()
+    st.stop()  # Stop rest of dashboard from loading
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # CSS
@@ -383,8 +391,13 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
     st.markdown('<div class="section-label">OPERATOR</div>', unsafe_allow_html=True)
-    st.markdown("**Divyansh Khanna**")
-    st.markdown('<div style="color:#52525b;font-size:0.78rem;margin-bottom:0.8rem;">Chief Executive Officer</div>', unsafe_allow_html=True)
+    user = get_current_user()
+    user_email = user.email if user else "CEO"
+    user_name = st.session_state.get("user_name", user_email.split("@")[0].title())
+    st.markdown(f"**{user_name}**")
+    st.markdown(f'<div style="color:#52525b;font-size:0.78rem;margin-bottom:0.8rem;">{user_email}</div>', unsafe_allow_html=True)
+    if st.button("🚪 Sign Out", use_container_width=True):
+        logout()
     st.markdown('<span class="live-badge"><span class="live-dot"></span>ONLINE</span>', unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
