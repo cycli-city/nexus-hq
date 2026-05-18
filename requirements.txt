@@ -1,7 +1,7 @@
-crewai
-crewai-tools
-streamlit
-python-dotenv
-groq
-litellm
-supabase
+crewai==1.14.4
+crewai-tools==0.45.0
+streamlit==1.57.0
+python-dotenv==1.0.1
+groq==0.25.0
+litellm==1.84.0
+supabase==2.15.2
