@@ -1,6 +1,6 @@
 crewai==1.14.4
 streamlit==1.57.0
-python-dotenv==1.0.1
 litellm==1.84.0
 supabase==2.30.0
 groq==1.2.0
+python-dotenv>=1.2.2
